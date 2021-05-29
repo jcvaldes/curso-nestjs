@@ -1,0 +1,56 @@
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { CrearJugadorDto } from './dtos/crear-jugador.dto';
+import { Jugador } from './interfaces/jugador.interface';
+import { v4 as uuidv4 } from 'uuid';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+
+@Injectable()
+export class JugadoresService {
+  private jugadores: Jugador[] = [];
+  private readonly logger = new Logger(JugadoresService.name);
+  
+  async createOrUpdate(crearJugadorDto: CrearJugadorDto): Promise<void> {
+    const { email } = crearJugadorDto;
+    const jugadorFound = this.jugadores.find((j) => j.email === email);
+    if (jugadorFound) {
+      this.update(jugadorFound, crearJugadorDto);
+    } else {
+      this.create(crearJugadorDto);
+    }
+  }
+  async getAll(): Promise<Jugador[]> {
+    return await this.jugadores;
+  }
+  async getByEmail(email: string): Promise<Jugador> {
+    const jugadorFound = this.jugadores.find((j) => j.email === email);
+    if (!jugadorFound) {
+      throw new NotFoundException(
+        `jogador con email ${email} no fue encontrado`,
+      );
+    }
+    return jugadorFound;
+  }
+  async delete(email: string): Promise<void> {
+    const jugadorFound = this.jugadores.find((j) => j.email === email);
+    this.jugadores = this.jugadores.filter((j) => j.email !== email);
+  }
+  private create(crearJugadorDto: CrearJugadorDto): void {
+    const { nombre, email, celular } = crearJugadorDto;
+    const jugador: Jugador = {
+      _id: uuidv4(),
+      nombre,
+      celular,
+      email,
+      ranking: 'A',
+      posicionRanking: 1,
+      imagen: 'www.gooogle.com/foto.jpg',
+    };
+    this.logger.log(`crearJugadorDto: ${JSON.stringify(jugador)}`);
+    this.jugadores.push(jugador);
+  }
+  private update(jugador: Jugador, crearJugadorDto: CrearJugadorDto): void {
+    const { nombre } = crearJugadorDto;
+    jugador.nombre = nombre;
+  }
+}
