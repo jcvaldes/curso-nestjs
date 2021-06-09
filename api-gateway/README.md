@@ -71,3 +71,23 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+## Configuracion de politicas para que se vea el archivo en S3
+1. Crear usuario s3_user_app
+2. Crear bucket
+3. Configurar permisos 
+![](images/s3_config.png)
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "PublicRead",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::smartranking/*"
+        }
+    ]
+}
+```

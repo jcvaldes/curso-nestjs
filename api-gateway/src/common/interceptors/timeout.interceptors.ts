@@ -6,8 +6,6 @@ export class TimeoutInterceptor implements NestInterceptor {
     context: ExecutionContext,
     next: CallHandler<any>,
   ): Observable<any> | Promise<Observable<any>> {
-    return next
-      .handle()
-      .pipe(timeout(10000));
+    return next.handle().pipe(timeout(10000));
   }
 }

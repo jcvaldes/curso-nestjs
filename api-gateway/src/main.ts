@@ -7,8 +7,8 @@ import { TimeoutInterceptor } from './common/interceptors/timeout.interceptors';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   // timeout interceptor cuando hace un get espera 10 segundos y si no obtinee datos cancela el request
-  app.useGlobalInterceptors(new LoggingInterceptor(), new TimeoutInterceptor())
-  
+  app.useGlobalInterceptors(new LoggingInterceptor(), new TimeoutInterceptor());
+
   // Configuro el http exception handling global
   app.useGlobalFilters(new AllExceptionsFilter());
   Date.prototype.toJSON = function (): any {
@@ -16,6 +16,6 @@ async function bootstrap() {
       .tz('America/Sao_Paulo')
       .format('YYYY-MM-DD HH:mm:ss.SSS');
   };
-  await app.listen(8081);
+  await app.listen(3000);
 }
 bootstrap();
