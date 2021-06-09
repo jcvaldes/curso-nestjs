@@ -1,6 +1,5 @@
 import { Document } from 'mongoose';
-import { Jugador } from '../jugadores/jugador.interface';
-
+import { Jugador } from '../../jugadores/interfaces/jugador.interface';
 
 export interface Categoria extends Document {
   readonly categoria: string;
@@ -11,5 +10,5 @@ export interface Categoria extends Document {
 export interface Evento {
   nombre: string;
   operacion: string;
-  valor: number
+  valor: number;
 }
