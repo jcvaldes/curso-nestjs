@@ -1,7 +1,7 @@
-import { Document } from 'mongoose';
 import { DesafioStatus } from '../desafio-status.enum';
 
-export interface Desafio extends Document {
+export interface Desafio {
+  _id: string;
   dataHoraDesafio: Date;
   status: DesafioStatus;
   dataHoraSolicitud: Date;

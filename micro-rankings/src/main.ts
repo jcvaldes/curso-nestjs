@@ -9,6 +9,7 @@ const logger = new Logger('Main');
 const configService = new ConfigService();
 
 async function bootstrap() {
+  console.log(`${configService.get<string>('RABBITMQ_USER')}`);
   const app = await NestFactory.createMicroservice(AppModule, {
     transport: Transport.RMQ,
     options: {
@@ -20,7 +21,7 @@ async function bootstrap() {
         )}@${configService.get<string>('RABBITMQ_URL')}`,
       ],
       noAck: false,
-      queue: 'admin-backend',
+      queue: 'rankings',
     },
   });
 

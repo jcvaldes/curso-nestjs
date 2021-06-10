@@ -1,14 +1,15 @@
 import { Module } from '@nestjs/common';
+import { RankingsModule } from './rankings/rankings.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { DesafiosModule } from './desafios/desafios.module';
-import { PartidasModule } from './partidas/partidas.module';
-import { ProxyRMQModule } from './proxyrmq/proxyrmq.module';
 import { ConfigModule } from '@nestjs/config';
+import { ProxyRMQModule } from './proxyrmq/proxyrmq.module';
 
 @Module({
   imports: [
+    RankingsModule,
+    ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRoot(
-      'mongodb+srv://jcvaldes:swordfish@cluster0.kgn4b.mongodb.net/srdesafios?retryWrites=true&w=majority',
+      'mongodb+srv://jcvaldes:swordfish@cluster0.kgn4b.mongodb.net/srrankings?retryWrites=true&w=majority',
       {
         useNewUrlParser: true,
         useCreateIndex: true,
@@ -16,10 +17,9 @@ import { ConfigModule } from '@nestjs/config';
         useFindAndModify: false,
       },
     ),
-    DesafiosModule,
-    PartidasModule,
     ProxyRMQModule,
-    ConfigModule.forRoot({ isGlobal: true }),
   ],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
