@@ -42,7 +42,10 @@ export class CategoriasController {
   }
 
   @MessagePattern('consultar-categorias')
-  async consultarCategorias(@Payload() _id: string, @Ctx() context: RmqContext,) {
+  async consultarCategorias(
+    @Payload() _id: string,
+    @Ctx() context: RmqContext,
+  ) {
     const channel = context.getChannelRef();
     const originalMsg = context.getMessage();
     try {
@@ -57,16 +60,13 @@ export class CategoriasController {
   }
 
   @EventPattern('actualizar-categoria')
-  async actualizarCategoria(
-    @Payload() data: any,
-    @Ctx() context: RmqContext,
-  ) {
+  async actualizarCategoria(@Payload() data: any, @Ctx() context: RmqContext) {
     const channel = context.getChannelRef();
     const originalMsg = context.getMessage();
     this.logger.log(`categoria: ${JSON.stringify(data)}`);
     try {
-      const _id: string = data.id
-      const categoria: Categoria = data.categoria
+      const _id: string = data.id;
+      const categoria: Categoria = data.categoria;
       await this.categoriasService.actualizarCategoria(_id, categoria);
       await channel.ack(originalMsg);
     } catch (err) {

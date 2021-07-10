@@ -112,10 +112,10 @@ export class RankingsService {
         .toPromise();
 
       /*
-                Realizaremos um loop nos registros que recuperamos do ranking (partidas processadas)
-                e descartaremos os registros (com base no id do desafio) que não retornaram no
-                objeto desafios
-            */
+          Realizaremos um loop nos registros que recuperamos do ranking (partidas processadas)
+          e descartaremos os registros (com base no id do desafio) que não retornaram no
+          objeto desafios
+      */
 
       _.remove(registrosRanking, function (item) {
         return (

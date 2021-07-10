@@ -15,7 +15,7 @@ export class RankingsController {
     @Query('dataRef') dataRef: string,
   ): Observable<any> {
     if (!idCategoria) {
-      throw new BadRequestException('O id da categoria é obrigatório!');
+      throw new BadRequestException('el id de la categoria es requerido!');
     }
 
     return this.clientRankingsBackend.send('consultar-rankings', {

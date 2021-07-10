@@ -9,6 +9,7 @@ import {
 import { Partida } from './interfaces/partida.interface';
 import { RankingsService } from './rankings.service';
 import { RankingResponse } from './interfaces/ranking-response.interface';
+import { Desafio } from './interfaces/desafio.interface';
 
 const ackErrors: string[] = ['E11000'];
 
