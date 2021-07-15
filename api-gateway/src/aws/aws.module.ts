@@ -1,8 +1,11 @@
 import { Module } from '@nestjs/common';
-import { AwsService } from './aws.service';
+import { AwsCognitoConfig } from './aws-cognito.config';
+import { AwsS3Service } from './aws-s3.service';
+import { AwsCognitoService } from './aws-cognito.service';
+import { AwsS3Config } from './aws-s3.config';
 
 @Module({
-  providers: [AwsService],
-  exports: [AwsService]
+  providers: [AwsS3Config, AwsS3Service, AwsCognitoConfig, AwsCognitoService],
+  exports: [AwsS3Config, AwsS3Service, AwsCognitoConfig, AwsCognitoService],
 })
 export class AwsModule {}

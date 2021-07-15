@@ -10,40 +10,27 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { Observable } from 'rxjs';
-import { ClientProxySmartRanking } from 'src/proxyrmq/client-proxy';
 import { ActualizarCategoriaDto } from './dtos/actualizar-categoria.dto';
 import { CrearCategoriaDto } from './dtos/crear-categoria.dto';
+import { CategoriasService } from './categorias.service';
 
 @Controller('api/v1/categorias')
 export class CategoriasController {
   private logger = new Logger(CategoriasController.name);
-  private clientAdminBackend =
-    this.clientProxySmartRanking.getClientProxyAdminBackendInstance();
-  //private clientAdminBackend: ClientProxy;
-  constructor(private clientProxySmartRanking: ClientProxySmartRanking) {
-    // this.clientAdminBackend = ClientProxyFactory.create({
-    //   transport: Transport.RMQ,
-    //   options: {
-    //     //virtualhost
-    //     urls: ['amqp://guest:guest@localhost:5672/smartracking'],
-    //     // fila
-    //     queue: 'admin-backend',
-    //   },
-    // });
-  }
+
+  constructor(private categoriasService: CategoriasService) {}
 
   @Post()
   @UsePipes(ValidationPipe)
   crearCategorias(@Body() crearCategoriaDto: CrearCategoriaDto) {
     // envia el mensaje (publica) a nuestro message broker
-    this.clientAdminBackend.emit('crear-categoria', crearCategoriaDto);
+    this.categoriasService.crearCategoria(crearCategoriaDto);
   }
 
   @Get()
-  consultarCategorias(@Query('categoriaId') _id: string): Observable<any> {
+  async consultarCategorias(@Query('categoriaId') _id: string) {
     // envia el mensaje (publica) a nuestro message broker
-    return this.clientAdminBackend.send('consultar-categorias', _id ? _id : '');
+    return await this.categoriasService.consultarCategorias(_id);
   }
 
   @Put('/:_id')
@@ -52,9 +39,6 @@ export class CategoriasController {
     @Body() actualizarCategoriaDto: ActualizarCategoriaDto,
     @Param('_id') _id: string,
   ) {
-    this.clientAdminBackend.send('actualizar-categorias', {
-      id: _id,
-      categoria: actualizarCategoriaDto,
-    });
+    this.categoriasService.actualizarCategoria(actualizarCategoriaDto, _id);
   }
 }
